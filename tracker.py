@@ -6,6 +6,7 @@ and measures its returns and risk.
 
 import yfinance as yf
 import pandas as pd
+import matplotlib.pyplot as plt
 
 # ---------------------------------------------------------------
 # STEP 1: Download prices
@@ -75,4 +76,47 @@ print(f"Worst point: {drawdown.idxmin().date()}")
 # ---------------------------------------------------------------
 # STEP 5: Charts and summary (compare with the FTSE 100)
 # ---------------------------------------------------------------
-# TODO
+# Chart 1: portfolio value over time
+plt.figure(figsize=(10, 5))
+plt.plot(portfolio_value)
+plt.title("Portfolio value")
+plt.xlabel("Date")
+plt.ylabel("Value (£)")
+plt.savefig("charts/portfolio_value.png")
+plt.show()
+
+# Chart 2: portfolio vs FTSE 100 (both rebased to 100)
+ftse = yf.download("^FTSE", period="2y")["Close"]["^FTSE"]
+ftse = ftse.reindex(portfolio_value.index).ffill()
+print(ftse.head())
+print(ftse.tail())
+print(ftse.isna().sum())
+
+portfolio_rebased = portfolio_value / portfolio_value.iloc[0] * 100
+ftse_rebased = ftse / ftse.iloc[0] * 100
+
+# Chart 2: portfolio vs FTSE 100 (both rebased to 100)
+plt.figure(figsize=(10, 5))
+plt.plot(portfolio_rebased, label="My portfolio")
+plt.plot(ftse_rebased, label="FTSE 100")
+plt.title("Portfolio vs FTSE 100 (rebased to 100)")
+plt.xlabel("Date")
+plt.ylabel("Value (start = 100)")
+plt.legend()
+plt.savefig("charts/portfolio_vs_ftse.png")
+plt.show()
+
+ftse_return = ftse.iloc[-1] / ftse.iloc[0] - 1
+print(f"FTSE 100 total return: {ftse_return:.2%}")
+
+outperformance = total_return - ftse_return
+print(f"Outperformance vs FTSE 100: {outperformance:.2%}")
+
+# Chart 3: drawdown over time
+plt.figure(figsize=(10, 5))
+plt.plot(drawdown)
+plt.title("Portfolio drawdown (fall from previous peak)")
+plt.xlabel("Date")
+plt.ylabel("Drawdown")
+plt.savefig("charts/drawdown.png")
+plt.show()
