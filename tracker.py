@@ -118,5 +118,7 @@ plt.plot(drawdown)
 plt.title("Portfolio drawdown (fall from previous peak)")
 plt.xlabel("Date")
 plt.ylabel("Drawdown")
+from matplotlib.ticker import PercentFormatter
+plt.gca().yaxis.set_major_formatter(PercentFormatter(1))
 plt.savefig("charts/drawdown.png")
 plt.show()
