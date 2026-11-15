@@ -55,6 +55,8 @@ daily_returns = portfolio_value.pct_change().dropna()
 print(daily_returns.head())
 total_return = portfolio_value.iloc[-1] / portfolio_value.iloc[0] - 1
 print(f"Total return: {total_return:.2%}")
+annual_return = (1 + total_return) ** 0.5 - 1
+print(f"Annualised return: {annual_return:.2%}")
 
 # ---------------------------------------------------------------
 # STEP 4: Risk (volatility and maximum drawdown)
