@@ -58,9 +58,19 @@ print(f"Total return: {total_return:.2%}")
 # ---------------------------------------------------------------
 # STEP 4: Risk (volatility and maximum drawdown)
 # ---------------------------------------------------------------
-# TODO
+# Volatility = standard deviation of daily returns
 
+daily_volatility = daily_returns.std()
+annual_volatility = daily_volatility * 252 ** 0.5
 
+print(f"Daily volatility: {daily_volatility:.2%}")
+print(f"Annual volatility: {annual_volatility:.2%}")
+
+running_peak = portfolio_value.cummax()
+drawdown = portfolio_value / running_peak - 1
+max_drawdown = drawdown.min()
+print(f"Maximum drawdown: {max_drawdown:.2%}")
+print(f"Worst point: {drawdown.idxmin().date()}")
 # ---------------------------------------------------------------
 # STEP 5: Charts and summary (compare with the FTSE 100)
 # ---------------------------------------------------------------
