@@ -66,6 +66,7 @@ annual_volatility = daily_volatility * 252 ** 0.5
 print(f"Daily volatility: {daily_volatility:.2%}")
 print(f"Annual volatility: {annual_volatility:.2%}")
 
+# Maximum drawdown = biggest fall from a peak 
 running_peak = portfolio_value.cummax()
 drawdown = portfolio_value / running_peak - 1
 max_drawdown = drawdown.min()
